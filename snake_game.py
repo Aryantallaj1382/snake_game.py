@@ -20,20 +20,15 @@ class Snake:
 
 class Food:
     def __init__(self):
-        if score % 5 == 0 :
-            x = randint(0, (GAME_WITH // SPACE_SIZE) - 1) * SPACE_SIZE
-            y = randint(0, (GAME_HEIGHT // SPACE_SIZE) - 1) * SPACE_SIZE
-            self.coordinates = [x, y]
-            canvas.create_oval(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=GOLD_FOOD_COLOR, tag="goldfood")
-        else:
-            x = randint(0, (GAME_WITH // SPACE_SIZE) - 1) * SPACE_SIZE
-            y = randint(0, (GAME_HEIGHT // SPACE_SIZE) - 1) * SPACE_SIZE
-            self.coordinates = [x ,y]
-            canvas.create_oval(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=FOOD_COLOR, tag="food")
+        x = randint(0, (GAME_WITH // SPACE_SIZE) - 1) * SPACE_SIZE
+        y = randint(0, (GAME_HEIGHT // SPACE_SIZE) - 1) * SPACE_SIZE
+        self.coordinates = [x ,y]
+        canvas.create_oval(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=FOOD_COLOR, tag="food")
 
 
 def next_turn(snake, food):
     x, y = snake.coordinates[0]
+    print(x,y)
     if direction == "up":
         y -= SPACE_SIZE
     elif direction == "down":
@@ -49,20 +44,14 @@ def next_turn(snake, food):
 
     if x == food.coordinates[0] and y == food.coordinates[1]:
         global score
-        if score % 6 == 0 :
-            score += 3
-            label.config(text=f"Score: {score}")
-            canvas.delete("goldfood")
-            food = Food()
-        elif score % 5 != 0 :
-            score += 1
-            label.config(text=f"Score: {score}")
-            canvas.delete("food")
-            food = Food()
+        score += 1
+        label.config(text= f"Score: {score}")
+        canvas.delete("food")
+        food = Food()
     else:
-         del snake.coordinates[-1]
-         canvas.delete(snake.squares[-1])
-         del snake.squares[-1]
+        del snake.coordinates[-1]
+        canvas.delete(snake.squares[-1])
+        del snake.squares[-1]
 
     if check_game_over(snake):
         game_over()
@@ -112,14 +101,13 @@ def restart_program():
 
 
 # ------------------------------------
-GAME_WITH = 700
-GAME_HEIGHT = 700
+GAME_WITH = 1500
+GAME_HEIGHT = 800
 SPACE_SIZE = 50
 SLOWNESS = 200
 BODY_SIZE = 2
 SNAKE_COLOR = "yellow"
 FOOD_COLOR = "red"
-GOLD_FOOD_COLOR = "yellow"
 BACKGROUND_COLOR = "black"
 score = 0
 direction = "down"
@@ -143,7 +131,6 @@ window_width = window.winfo_width()
 window_height = window.winfo_height()
 screen_width = window.winfo_screenwidth()
 screen_height = window.winfo_screenheight()
-print(screen_height ,screen_width)
 
 x = int((screen_width / 2) - (window_width / 2))
 y = int((screen_height / 2) - (window_height / 2))
